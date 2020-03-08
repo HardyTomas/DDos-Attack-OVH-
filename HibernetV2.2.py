@@ -62,13 +62,14 @@ referers = [
 	"https://check-host.net/",
 	"https://www.facebook.com/",
  	"https://www.youtube.com/",
+        "https://www.rambler.ru/",
         "https://cyber-hub.pw/"
-        "https://www.vedbex.com/tools/home" 
-        "https://www.ibm.com/cloud"
-        "https://voxility.com/"
-        "https://duckduckgo.com/"
+        "https://www.vedbex.com/tools/home" ,
+        "https://www.ibm.com/cloud",
+        "https://voxility.com/",
+        "https://duckduckgo.com/",
         "https://www.redwolfsecurity.com/"
-        "https://www.ionos.com/"
+        "https://www.ionos.com/",
         "https://www.react.su/"
         "http://ddos-protection.ru/"
 	"https://www.fbi.com/",
@@ -77,15 +78,15 @@ referers = [
         "https://www.ovh.ie/"
         "https://www.hetzner.com/"
         "https://ddos-guard.net/"
-        "https://blazingfast.io/"
+        "https://blazingfast.io/",
         "https://selectel.ru/"
         "https://www.cloudns.net/"
         "http://regex.info/exif.cgi?url="
-        "https://upcloud.com/"
+        "https://upcloud.com/",
         "https://www.youtube.com/"
-        "https://www.online.net/"
+        "https://www.online.net/",
         "https://www.linode.com/"
-        "https://www.datacamp.com/"
+        "https://www.datacamp.com/",
         "https://yandex.ru/"
         "https://beget.com/"
         "https://add.my.yahoo.com/rss?url"
