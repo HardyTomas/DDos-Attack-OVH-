@@ -66,6 +66,7 @@ referers = [
         "https://www.vedbex.com/tools/home" 
         "https://www.ibm.com/cloud"
         "https://voxility.com/"
+        "https://duckduckgo.com/"
         "https://www.redwolfsecurity.com/"
         "https://www.ionos.com/"
         "https://www.react.su/"
