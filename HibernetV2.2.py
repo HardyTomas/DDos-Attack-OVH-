@@ -27,8 +27,7 @@ print('''
   hh   hh  iii  bb   bb  eeeeeee  rr   rr   nnn  nnnnn  eeeeeee     ttt
   hh   hh  iii  bbbbbbb  eeeeeee  rr    rr  nnnn  nnnn  eeeeeee     ttt
 
-
-							C0d3d by Efremov
+							C0d3d by Lol
 	''') # la grafica ci sta
                                                                        
 HEADER = '\x00\x00\x00\x00\x00\x01\x00\x00stats\r\n'
