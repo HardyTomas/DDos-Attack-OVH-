@@ -27,9 +27,10 @@ print('''
   hh   hh  iii  bb   bb  eeeeeee  rr   rr   nnn  nnnnn  eeeeeee     ttt
   hh   hh  iii  bbbbbbb  eeeeeee  rr    rr  nnnn  nnnn  eeeeeee     ttt
 
-							C0d3d by Lol
+
+							C0d3d by Hardy 
 	''') # la grafica ci sta
-                                                                       
+                                                                                                                                               
 HEADER = '\x00\x00\x00\x00\x00\x01\x00\x00stats\r\n'
        
 bytes=random._urandom(5024)
@@ -133,7 +134,11 @@ useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
 			"BlackBerry9530/4.7.0.167 Profile/MIDP-2.0 Configuration/CLDC-1.1 VendorID/102 UP.Link/6.3.1.20.0",
 			"BlackBerry9700/5.0.0.351 Profile/MIDP-2.1 Configuration/CLDC-1.1 VendorID/123",
 			"Bloglines/3.1 (http://www.bloglines.com)",
-			"CSSCheck/1.2.2",    
+                        "Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; GTB7.4; InfoPath.2; SV1; .NET CLR 3.3.69573; WOW64; en-US)"
+"Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; WOW64; Trident/4.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 1.0.3705; .NET CLR 1.1.4322)"
+"Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; InfoPath.1; SV1; .NET CLR 3.8.36217; WOW64; en-US)"
+"Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; .NET CLR 2.7.58687; SLCC2; Media Center PC 5.0; Zune 3.4; Tablet PC 3.6; InfoPath.3)"
+ 			"CSSCheck/1.2.2",    
 			"Dillo/2.0",                                                                                                               
       			"DoCoMo/2.0 SH901iC(c100;TB;W24H12)",                                                                                                                                                         
 			"Download Demon/3.5.0.11",
