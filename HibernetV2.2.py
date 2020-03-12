@@ -120,7 +120,7 @@ referers = [
         "https://www.stackpath.com/"
         "https://cloudnode.pw/"
 	"https://r.search.yahoo.com/",
-]
+]	
                                                                                                                           
 useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
 			"Avant Browser/1.2.789rel1 (http://www.avantbrowser.com)",
@@ -143,6 +143,12 @@ useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
       			"DoCoMo/2.0 SH901iC(c100;TB;W24H12)",                                                                                                                                                         
 			"Download Demon/3.5.0.11",
 			"ELinks/0.12~pre5-4",
+                        "11.50"
+"PHP/7.1"
+"Python-urllib/2.7"
+"Rome"
+"Tiny Tiny RSS/1.15.3 (http://tt-rss.org/)"
+"Tiny Tiny RSS/17.12 (http://tt-rss.org/"
 			"ELinks (0.4pre5; Linux 2.6.10-ac7 i686; 80x33)",
 			"ELinks/0.9.3 (textmode; Linux 2.6.9-kanotix-8 i686; 127x41)",
 			"EmailWolf 1.00",
