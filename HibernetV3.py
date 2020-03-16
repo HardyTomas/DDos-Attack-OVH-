@@ -125,10 +125,22 @@ referers = [
 useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
 			"Avant Browser/1.2.789rel1 (http://www.avantbrowser.com)",
                         "Mozilla/5.0 (compatible; YandexAdNet/1.0; +http://yandex.com/bots)"
+                        "Mozilla/5.0 (compatible; Cloudflare-Smart-Transit/1.0; +https://www.cloudflare.com/"
 "Mozilla/5.0 (Linux; Android 5.0; SM-G920A) AppleWebKit (KHTML, like Gecko) Chrome Mobile Safari (compatible; AdsBot-Google-Mobile; +http://www.google.com/mobile/adsbot.html)"
                        "APIs-Google (+https://developers.google.com/webmasters/APIs-Google.html)"
                        "Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36"
                        "Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16"
+                       "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.137 Safari/537.36 OPR/67.0.3575.79"
+                       "Mozilla/5.0 (compatible; Bingbot/2.0; +http://www.bing.com/bingbot.htm)"
+"Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)"
+"DuckDuckBot/1.0; (+http://duckduckgo.com/duckduckbot.html)"
+"Mozilla/5.0 (compatible; Baiduspider/2.0; +http://www.baidu.com/search/spider.html)"
+"Mozilla/5.0 (compatible; Exabot/3.0; +http://www.exabot.com/go/robot)"
+"Mozilla/5.0 (compatible; Konqueror/3.5; Linux) KHTML/3.5.5 (like Gecko) (Exabot-Thumbnails"
+"facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)"
+"ia_archiver (+http://www.alexa.com/site/help/webmasters; crawler@alexa.com)"
+                       "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/W.X.Y.Z‡ Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)"
+                       "Mozilla/5.0 (Linux; Android 8.1.0; motorola one Build/OPKS28.63-18-3; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/70.0.3538.80 Mobile Safari/537.36 Instagram 72.0.0.21.98 Android (27/8.1.0; 320dpi; 720x1362; motorola; motorola one; deen_sprout; qcom; pt_BR; 132081645)"
                        "Googlebot/2.1 (+http://www.google.com/bot.html)"
                         "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"      
 			"Baiduspider ( http://www.baidu.com/search/spider.htm)",
@@ -675,7 +687,7 @@ def starturl(): # in questa funzione setto l'url per renderlo usabile per il fut
 		urlport = url.replace("http://", "").replace("https://", "").split("/")[0].split(":")[1]
 	except:
 		urlport = "80"
-                                                                                                                                                                                                          
+                                                                                                                                                                                                                                                                      
 	floodmode()
 
 def floodmode(): # la scelta della modalità di attacco
