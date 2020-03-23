@@ -8,5 +8,5 @@ Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
 Keep-Alive: 300
 Connection: keep-alive
 Cookie: PHPSESSID=r2t5uvjq435r4q7ib3vtdjq120
-Pragma: max-age=120
-Cache-Control: max-age=120
+Pragma: yes-cache
+Cache-Control: yes-cache
