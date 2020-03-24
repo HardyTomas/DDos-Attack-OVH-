@@ -1,12 +1,16 @@
-GET http://www.google.com/ HTTP/1.1
+GET https://www.google.com/ HTTP/1.1
 Host: www.google.com
 User-Agent: Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 Accept-Language: en-us,en;q=0.5
+Accept-Ranges: bytes
 Accept-Encoding: gzip,deflate
 Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7
 Keep-Alive: 300
+Server: gws
 Connection: keep-alive
 Cookie: PHPSESSID=r2t5uvjq435r4q7ib3vtdjq120
-Pragma: yes-cache
-Cache-Control: yes-cache
+Pragma: no-cache
+Cache-Control: max-age=500                 
+Content-Length: 3700
+Set-Cookie: GCLB=CKGG29iqi-eWWA; path=/; HttpOnly; expires=Mon, 23-Mar-2020 09:46:08 GMT             
