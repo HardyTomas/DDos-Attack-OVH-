@@ -2,6 +2,6 @@
 Powerful DDoS Attack
 
 
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 python3 HibernetV3.2.py
