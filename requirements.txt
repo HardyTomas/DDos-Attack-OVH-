@@ -1,0 +1,17 @@
+bs4
+ovh
+cfscrape
+ratelimit
+backoff
+aiohttp_limit
+aiohttp
+requests_guard
+aiocfscrape
+proxy_requests
+asyncio
+flask
+flask_limit
+fake_useragent
+ratelimiter
+cloudscraper
+pysocks           
