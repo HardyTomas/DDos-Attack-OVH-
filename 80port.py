@@ -162,6 +162,7 @@ app = web.Application(middlewares=[LimitMiddleware(requests=1000)])
 scraper = cloudscraper.create_scraper(debug=True)
 scraper = cloudscraper.create_scraper(delay=1000)
 proxies = {"http": "http://localhost:8080", "https": "http://localhost:8080"}
+proxies = {"http": "http://google.com:8080","https": "https://google.com:8080
 scraper = cloudscraper.create_scraper(
     browser={
         'browser': 'firefox',
