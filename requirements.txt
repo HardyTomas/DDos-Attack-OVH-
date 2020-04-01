@@ -1,4 +1,5 @@
 bs4
+request_limiter
 ovh
 cfscrape
 ratelimit
