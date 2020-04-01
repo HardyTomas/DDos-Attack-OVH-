@@ -55,7 +55,7 @@ FIFTEEN_MINUTES = 900
 @on_exception(expo, RateLimitException, max_tries=800)
 @limits(calls=150, period=FIFTEEN_MINUTES)
 def call_api(url):
-    response = requests.get(url)
+    response = requests.get('freeboot.to'),
 
     if response.status_code != 500:
         raise Exception('API response: {}'.format(response.status_code))
@@ -67,7 +67,7 @@ def call_api(url):
             if i == '1':
                 res = res + 1
         return res
-
+                                          
     def solve_challenge(self, challenge):
         rand_words = re.search(r's,t,o,p,b,r,e,a,k,i,n,g,f, ([^\=]*)\=\{\"([^\"]*)', challenge)
         rnd1, rand2 = rand_words.group(1), rand_words.group(2)
@@ -157,8 +157,6 @@ def call_api(url):
               
 requests.get = ("google.com")
 
-app = web.Application(middlewares=[LimitMiddleware(requests=1000)])
-
 scraper = cloudscraper.create_scraper(debug=True)
 scraper = cloudscraper.create_scraper(delay=1000)
 proxies = {"http": "http://localhost:8080", "https": "http://localhost:8080"}
@@ -181,16 +179,19 @@ scraper = cloudscraper.create_scraper(
     'api_key': '1abc234de56fab7c89012d34e56fa7b8'
   }
 )
-scraper = cloudscraper.create_scraper(
-  interpreter='nodejs',
-  recaptcha={
-    'provider': 'anticaptcha',
-    'api_key': 'P6KLRNy7h3K160ZmYNUOAce7'
-  }
-)
 session = requests.session()
 scraper = cloudscraper.create_scraper(sess=session)
-                                                                                                                                                                                                                      
+
+def limited(until):
+    duration = int(round(until - time.time()))
+    print('Rate limited, sleeping for {:d} seconds'.format(duration))
+
+rate_limiter = RateLimiter(max_calls=200, period=3, callback=limited)
+
+for i in range(3):
+    with rate_limiter:
+        print('Iteration', i)
+                                                                                                                                                                                   
 global data                          
 headers = open("headers.txt", "r")
 data = headers.read()
