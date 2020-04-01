@@ -157,8 +157,6 @@ def call_api(url):
               
 requests.get = ("google.com")
 
-app = web.Application(middlewares=[LimitMiddleware(requests=1000)])
-
 scraper = cloudscraper.create_scraper(debug=True)
 scraper = cloudscraper.create_scraper(delay=1000)
 proxies = {"http": "http://localhost:8080", "https": "http://localhost:8080"}
@@ -190,7 +188,18 @@ scraper = cloudscraper.create_scraper(
 )
 session = requests.session()
 scraper = cloudscraper.create_scraper(sess=session)
-                                                                                                                                                                                                                      
+
+                                                 
+def limited(until):
+    duration = int(round(until - time.time()))
+    print('Rate limited, sleeping for {:d} seconds'.format(duration))
+
+rate_limiter = RateLimiter(max_calls=200, period=3, callback=limited)
+
+for i in range(3):
+    with rate_limiter:
+        print('Iteration', i)
+                                                                                                                                                                                         
 global data                          
 headers = open("headers.txt", "r")
 data = headers.read()
