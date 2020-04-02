@@ -158,6 +158,8 @@ def call_api(url):
 requests.get = ("google.com")
 
 scraper = cloudscraper.create_scraper(debug=True)
+session = requests.session()
+scraper = cloudscraper.create_scraper(sess=session)
 scraper = cloudscraper.create_scraper(delay=1000)
 proxies = {"http": "http://localhost:8080", "https": "http://localhost:8080"}
 proxies = {"http": "http://google.com:8080", "https": "http://google.com:8080"}
@@ -181,7 +183,6 @@ scraper = cloudscraper.create_scraper(
 )
 session = requests.session()
 scraper = cloudscraper.create_scraper(sess=session)
-
 def limited(until):
     duration = int(round(until - time.time()))
     print('Rate limited, sleeping for {:d} seconds'.format(duration))
