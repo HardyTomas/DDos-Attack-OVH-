@@ -15,8 +15,6 @@ import sys
 from flask import Flask, g
 from flask_limit import RateLimiter
 from bs4 import BeautifulSoup
-from aiohttp import web
-from aiohttp_limit import LimitMiddleware
 from ratelimit import limits, RateLimitException
 from ratelimit import limits, sleep_and_retry
 from backoff import on_exception, expo
