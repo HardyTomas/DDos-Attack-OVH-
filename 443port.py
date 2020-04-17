@@ -1065,7 +1065,7 @@ def starturl(): # in questa funzione setto l'url per renderlo usabile per il fut
 	try:
 		if url[0]+url[1]+url[2]+url[3] == "www.":
 			url = "https://" + url
-		elif url[0]+url[1]+url[2]+url[3] == "https":
+		elif url[0]+url[1]+url[2]+url[3] == "http":
 			pass
 		else:
 			url = "https://" + url
@@ -1074,12 +1074,12 @@ def starturl(): # in questa funzione setto l'url per renderlo usabile per il fut
 		starturl()
 
 	try:                                
-		url2 = url.replace("http://", "").replace("https://", "").split("/")[0].split(":")[0]
+		url2 = url.replace("https://", "").replace("https://", "").split("/")[0].split(":")[0]
 	except:
-		url2 = url.replace("http://", "").replace("https://", "").split("/")[0]
+		url2 = url.replace("https://", "").replace("https://", "").split("/")[0]
                                                                                          
 	try:               
-		urlport = url.replace("http://", "").replace("https://", "").split("/")[0].split(":")[1]
+		urlport = url.replace("https://", "").replace("https://", "").split("/")[0].split(":")[1]
 	except:
 		urlport = "443"
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
