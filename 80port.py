@@ -15,6 +15,8 @@ import sys
 from flask import Flask, g
 from flask_limit import RateLimiter
 from bs4 import BeautifulSoup
+import unittest
+from selenium import webdriver
 from ratelimit import limits, RateLimitException
 from ratelimit import limits, sleep_and_retry
 from backoff import on_exception, expo
@@ -294,6 +296,17 @@ except ImportError:
 
     if not TYPE_CHECKING:
         Coroutine = _Coroutine()
+
+class GoogleTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        self.addCleanup(self.browser.quit)
+
+    def testPageTitle(self):
+        self.browser.get('http://www.google.com')
+        self.assertIn('Google', self.browser.title)
+
                                                                                                                                                                                          
 global data                          
 headers = open("headers.txt", "r")
