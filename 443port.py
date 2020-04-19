@@ -293,8 +293,8 @@ except ImportError:
             pass
 
     if not TYPE_CHECKING:
-        Coroutine = _Coroutine()
-                                                                                                                                                                                         
+        Coroutine = _Coroutinine
+                                                                                                                                                                   
 global data                          
 headers = open("headers.txt", "r")
 data = headers.read()
