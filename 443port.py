@@ -15,6 +15,8 @@ import sys
 from flask import Flask, g
 from flask_limit import RateLimiter
 from bs4 import BeautifulSoup
+import unittest
+from selenium import webdriver
 from ratelimit import limits, RateLimitException
 from ratelimit import limits, sleep_and_retry
 from backoff import on_exception, expo
@@ -293,8 +295,19 @@ except ImportError:
             pass
 
     if not TYPE_CHECKING:
-        Coroutine = _Coroutinine
-                                                                                                                                                                   
+        Coroutine = _Coroutine()
+
+class GoogleTestCase(unittest.TestCase):
+
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        self.addCleanup(self.browser.quit)
+
+    def testPageTitle(self):
+        self.browser.get('http://www.google.com')
+        self.assertIn('Google', self.browser.title)
+
+                                                                                                                                                                                         
 global data                          
 headers = open("headers.txt", "r")
 data = headers.read()
@@ -427,7 +440,6 @@ useragents=["AdsBot-Google ( http://www.google.com/adsbot.html)",
                         "Mozilla/5.0 (X11; Linux aarch64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.84 Safari/537.36 CrKey/1.21a.76178",
                         "Sogou head spider/3.0( http://www.sogou.com/docs/help/webmasters.htm#07)",
                         "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:46.0) Gecko/20100101 Firefox/46.0"
-                        "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322)",
                         "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.99 Safari/537.36 Vivaldi/2.9.1705.41",
                         "Mozilla/5.0 (Linux; U; Android 9; ru-ru; Mi 9 Lite Build/PKQ1.181121.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/71.0.3578.141 Mobile Safari/537.36 XiaoMi/MiuiBrowser/11.4.3-g"
                         "Mozilla/5.0 (Linux; Android 4.2.2; Philips S388 Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Mobile Safari/537.36 OPR/34.0.2044.98679"
@@ -1065,7 +1077,7 @@ def starturl(): # in questa funzione setto l'url per renderlo usabile per il fut
 	try:
 		if url[0]+url[1]+url[2]+url[3] == "www.":
 			url = "https://" + url
-		elif url[0]+url[1]+url[2]+url[3] == "http":
+		elif url[0]+url[1]+url[2]+url[3] == "https":
 			pass
 		else:
 			url = "https://" + url
