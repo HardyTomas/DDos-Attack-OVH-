@@ -1,4 +1,3 @@
-import requests
 import asyncio
 import ovh
 import socket
@@ -6,6 +5,7 @@ import socks
 import threading
 import time
 import random
+import requests
 import re
 import urllib.request
 import os
@@ -307,7 +307,7 @@ class GoogleTestCase(unittest.TestCase):
         self.browser.get('http://www.google.com')
         self.assertIn('Google', self.browser.title)
 
-                                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                                                                                                                  
 global data                           
 headers = open("headers.txt", "r")
 data = headers.read()
